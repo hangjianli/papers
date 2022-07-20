@@ -1,0 +1,7 @@
+.DS_Store
+.vscode/
+
+
+downloaded_papers/
+.ipynb_checkpoints/
+markdown/
