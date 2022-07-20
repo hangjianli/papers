@@ -86,8 +86,8 @@ class PaperScraper:
 
         headers = {
             'User-agent':
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5  Safari/605.1.15",
-            # 'referer':'https://www.google.com/',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
+            'referer':'https://www.google.com/',
         }
 
         params = {
@@ -101,6 +101,7 @@ class PaperScraper:
             params=params).text
 
         soup = BeautifulSoup(html, 'lxml')
+        print(soup)
         result = soup.select('.gs_ri')[0]
         title = result.select_one('.gs_rt').text
         _cit_num = result.select_one('.gs_fl a:nth-child(3)').text
@@ -125,8 +126,11 @@ class PaperScraper:
 
 
 class Handler(FileSystemEventHandler):
-    def __init__(self) -> None:
-        super().__init__()
+    """_summary_
+
+    Args:
+        FileSystemEventHandler (_type_): _description_
+    """
 
     def on_modified(self, event):
         print(f'event type: {event.event_type}  path : {event.src_path}')
@@ -137,35 +141,21 @@ class Handler(FileSystemEventHandler):
             except FileNotFoundError:
                 print(f"Not a file: {event.src_path}")
 
-        # if event.src_path == (os.getcwd() + '/markdown/*'):
-
-
-# observer = Observer()
-# observer.schedule(Handler(), path="markdown", )
-# observer.start()
-
-# try:
-#     while True:
-#         pass
-# except KeyboardInterrupt:
-#     observer.stop()
-
-# observer.join()
-
 
 if __name__ == '__main__':
 
-    scraper = PaperScraper('markdown/nlp.md', download_papers=False)
+    scraper = PaperScraper('markdown/nlp.md', download_papers=True, wait_time=5)
     scraper.find_url()
-
-    # with open(self.note_path, 'r+') as f:
-    #         text = f.readlines()
-    #         for line in text:
-    #             regex_pattern = re.compile(r"http[:\w*\./]+\d(?=\w*)")
-    #             url = regex_pattern.findall(line)
-    #             if url:
-
-    # for url in urls:
-    #     paper = scraper.get_paper_info(url)
-        
     print("done!")
+
+    # observer = Observer()
+    # observer.schedule(Handler(), path="markdown", )
+    # observer.start()
+
+    # try:
+    #     while True:
+    #         pass
+    # except KeyboardInterrupt:
+    #     observer.stop()
+
+    # observer.join()
