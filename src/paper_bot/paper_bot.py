@@ -1,5 +1,8 @@
 """_summary_
 
+# TODO: cannot process more than one urls.
+
+
 Returns:
     _type_: _description_
 """
@@ -8,11 +11,13 @@ import re
 import time
 from bs4 import BeautifulSoup
 import arxiv
-import requests
+import requests, lxml
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+import os
 
+print(os.getcwd())
 
 class PaperScraper:
     """
@@ -45,25 +50,28 @@ class PaperScraper:
         """
 
         # url_pattern = re.compile(r"http[:\w*\./]+\d(?=\w*)")
-        url_pattern = re.compile(r"http[:\w*\./.?=]+")
+        url_pattern = re.compile(r"(?<!\[\[\barxiv\b\]\()http[:\w*\./.?=]+")
         file_content = [line for line in open(self.note_path)]
 
         writer = open(self.note_path, 'w')
         for line in file_content:
             url = url_pattern.findall(line)
             if url:
+                print(f"Found url: {url[0]}.")
                 print(f'Delaying search by {self.wait_time} seconds to avoid bot detection...')
+                
                 time.sleep(self.wait_time)
-                print(url[0])
-                paper_info = self.get_paper_info(url[0])
-                writer.write(
-                    f"* **{paper_info['title']}.**  \
-                    _{paper_info['publication_info']}_ \
-                    [[PDF]({paper_info['paper_dir']})] \
-                    [[arxiv]({paper_info['arxiv_link']})]\
-                    (Citations: **{paper_info['citation_number']}**)"
+                try:
+                    paper_info = self.get_paper_info(url[0])
+                    print(paper_info)
+                    writer.write(
+                        f"* **{paper_info['title']}.**  \
+                        _{paper_info['publication_info']}_   [[PDF]({paper_info['paper_dir']})] [[arxiv]({paper_info['arxiv_link']})] (Citations: **{paper_info['citation_number']}**)"
                     )
-                print('Paper added!')
+                    print('Paper added!')
+                except Exception as e: 
+                    print(e) 
+                # writer.write(line) # DEBUG
             else:
                 writer.write(line)
 
@@ -83,7 +91,6 @@ class PaperScraper:
         if self.download_papers:
             paper.download_pdf(dirpath='downloaded_papers/')
 
-
         headers = {
             'User-agent':
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
@@ -101,11 +108,10 @@ class PaperScraper:
             params=params).text
 
         soup = BeautifulSoup(html, 'lxml')
-        print(soup)
         result = soup.select('.gs_ri')[0]
         title = result.select_one('.gs_rt').text
-        _cit_num = result.select_one('.gs_fl a:nth-child(3)').text
-        citation_number = int(re.findall(r'\d+', _cit_num)[0])
+        _cit_num = re.findall(r'\d+', result.select_one('.gs_fl a:nth-child(3)').text)
+        citation_number = int(_cit_num[0]) if _cit_num else 0
         publication_info = result.select_one('.gs_a').text
 
         try:
@@ -121,6 +127,7 @@ class PaperScraper:
             'paper_dir': self.paper_path + paper._get_default_filename(),
             'arxiv_link': url,
         }
+
 
         return data
 
@@ -144,7 +151,7 @@ class Handler(FileSystemEventHandler):
 
 if __name__ == '__main__':
 
-    scraper = PaperScraper('markdown/nlp.md', download_papers=True, wait_time=5)
+    scraper = PaperScraper('markdown/rtb.md', download_papers=False, wait_time=5)
     scraper.find_url()
     print("done!")
 
