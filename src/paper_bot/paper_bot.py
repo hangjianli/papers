@@ -47,7 +47,7 @@ class PaperScraper:
         Returns:
             _type_: _description_
         """
-        url_pattern = re.compile(r"(?<!\[\[\barxiv\b\]\()http[:\w*\./.?=]+")
+        url_pattern = re.compile(r"(?<!\[\[\barxiv\b\]\()http[:\w*\./.?=-]+")
         file_content = [line for line in open(self.note_path)]
 
         for i, line in enumerate(file_content):
@@ -62,10 +62,10 @@ class PaperScraper:
                     paper_info = self.get_paper_info(url[0])
                     #
                     file_content[i] = f"* **{paper_info['title']}.**" + \
-                        f"_{paper_info['publication_info']}_" + \
-                        f"[[PDF]({paper_info['paper_dir']})]" + \
-                        f"[[arxiv]({paper_info['arxiv_link']})]" + \
-                        f"(Citations: **{paper_info['citation_number']}**)"
+                        f"  _{paper_info['publication_info']}_" + \
+                        f"  [[PDF]({paper_info['paper_dir']})]" + \
+                        f" [[arxiv]({paper_info['arxiv_link']})]" + \
+                        f" (Citations: **{paper_info['citation_number']}**)"
                 except IndexError as exception:
                     print(paper_info)
                     print(exception)
