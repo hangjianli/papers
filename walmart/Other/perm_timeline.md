@@ -1,0 +1,8 @@
+- PWD filed - June 2020
+- PWD received - October 2020
+- Recruitment started - Dec 2020
+- Recruitment ended - Mar 2021
+- PERM Submitted - Mar 2021
+- PERM approved - Sep 2021
+- i140 filed - Oct 2021 ( Filed in regular processing because I already have i140 approved from previous employer )
+- i140 approved - June 2022

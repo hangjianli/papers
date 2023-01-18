@@ -149,8 +149,8 @@ class Handler(PatternMatchingEventHandler):
         download_paper=False,
     ):
         super().__init__(patterns, ignore_patterns, ignore_directories, case_sensitive)
-
         self.download_paper = download_paper
+        print(f"[INFO] Download paper true/false: {self.download_paper}")
 
     def on_created(self, event):
         print(f"[CREATION]: {event.src_path[-10:]} has been created!")
@@ -178,7 +178,7 @@ class Handler(PatternMatchingEventHandler):
 
 if __name__ == '__main__':
 
-    # scraper = PaperScraper('markdown/', download_papers=False, wait_time=5)
+    # scraper = PaperScraper('markdown/reinforcement_learning.md', download_papers=True, wait_time=5)
     # scraper.find_url()
     # print("done!")
 
@@ -199,6 +199,7 @@ if __name__ == '__main__':
     observer.schedule(my_event_handler, path="markdown/")
 
     observer.start()
+
     try:
         while True:
             time.sleep(1)
