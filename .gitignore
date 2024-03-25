@@ -4,6 +4,5 @@
 
 downloaded_papers/
 .ipynb_checkpoints/
-markdown/
 *.pdf
 .python-version

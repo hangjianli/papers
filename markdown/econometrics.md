@@ -1,0 +1,5 @@
+* **Contamination Bias in Linear Regressions.**  _P Goldsmith-Pinkham, P Hull, M Kolesár - 2022 - nber.org_  [[PDF](downloaded_papers/2106.05024v3.Contamination_Bias_in_Linear_Regressions.pdf)] [[arxiv](https://arxiv.org/abs/2106.05024)] (Citations: **10**)
+
+* **Metalearners for estimating heterogeneous treatment effects using machine learning.**  _SR Künzel, JS Sekhon, PJ Bickel… - Proceedings of the …, 2019 - National Acad Sciences_  [[PDF](downloaded_papers/1706.03461v6.Meta_learners_for_Estimating_Heterogeneous_Treatment_Effects_using_Machine_Learning.pdf)] [[arxiv](https://arxiv.org/abs/1706.03461)] (Citations: **506**)
+
+* **Contamination bias in linear regressions.**  _P Goldsmith-Pinkham, P Hull, M Kolesár - 2022 - nber.org_  [[PDF](downloaded_papers/2106.05024v4.Contamination_Bias_in_Linear_Regressions.pdf)] [[arxiv](https://arxiv.org/abs/2106.05024)] (Citations: **49**)
