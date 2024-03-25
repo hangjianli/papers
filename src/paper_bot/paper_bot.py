@@ -14,7 +14,7 @@ import arxiv
 import requests
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
-
+import os
 
 class PaperScraper:
     """
@@ -24,7 +24,7 @@ class PaperScraper:
     def __init__(
         self,
         note_path,
-        paper_path='downloaded_papers/',
+        paper_path='/Users/h0l07zi/Library/CloudStorage/GoogleDrive-hangjian.li.hans@gmail.com/My Drive/papers/downloaded_papers/',
         download_papers=False,
         wait_time=5,
     ) -> None:
@@ -159,7 +159,7 @@ class Handler(PatternMatchingEventHandler):
         print(f"[MOVE]: Someone moved {event.src_path[-10:]} to {event.dest_path[-10:]}")
 
     def on_modified(self, event):
-        print(f"[MODIFICATION]: {event.src_path[-10:]} has been modified!")
+        print(f"[MODIFICATION]: {event.src_path} has been modified!")
 
         seconds = int(time.time())
         key = (seconds, event.src_path)
@@ -178,7 +178,8 @@ class Handler(PatternMatchingEventHandler):
 
 if __name__ == '__main__':
 
-    # scraper = PaperScraper('markdown/reinforcement_learning.md', download_papers=True, wait_time=5)
+    # DEBUG:
+    # scraper = PaperScraper('markdown/statistics.md', download_papers=True, wait_time=5)
     # scraper.find_url()
     # print("done!")
 
